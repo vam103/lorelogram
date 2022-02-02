@@ -70,7 +70,7 @@ lorelogram <- function(data, data_format = "wide", max_lag = 30, lor_type = "emp
   # Remove rows (=cameras) with no detection and prepare data
   y <- data[rowSums(data[,2:ncol(data)], na.rm = TRUE) > 0,]
   y <- droplevels(y)
-  colnames(y) <- c("id", paste0("R", seq(1, (ncol(y)-1), 1), sep="")) # rename columns
+  colnames(y) <- c("id", paste0("R", seq(1, (ncol(y)-1), 1))) # rename columns
 
 
   # #### Organize data: from wide format to long format
@@ -91,7 +91,8 @@ lorelogram <- function(data, data_format = "wide", max_lag = 30, lor_type = "emp
     y <- dplyr::rename(data, id = names(data[1]), time = names(data[2]), y = names(data[3]))
     # Remove rows (=cameras) with no detection and prepare data
     y3 <- as.data.frame(y %>% dplyr::group_by(id) %>% dplyr::filter(sum(y, na.rm = TRUE) > 0) %>% droplevels())
-    y3[2:3] <- lapply(y3[2:3], as.numeric)
+    #y3[2:3] <- lapply(y3[2:3], as.numeric)
+    y3 <- y3 %>% mutate(across(.cols=2:3,as.numeric))
 
     # Define max number of reps
     max_reps <- max(y3$time, na.rm = TRUE)
@@ -183,7 +184,8 @@ if (lor_type == "empirical"){
     if (bin_width == 1){
       freq_tot <- freq %>%
         dplyr::group_by(time_diff, y1) %>%
-        dplyr::summarise_all(dplyr::funs(sum))
+        #dplyr::summarise_all(dplyr::funs(sum))
+        dplyr::summarise(across(.cols=everything(),sum))
       freq_tot
     }
 
@@ -203,7 +205,8 @@ if (lor_type == "empirical"){
                    Lag_midpoint = midpoints(bin)) %>%
         dplyr::select(-bin) %>%
         dplyr::group_by(Lag_midpoint) %>%
-        dplyr::summarise_all(dplyr::funs(sum)) %>%
+        #dplyr::summarise_all(dplyr::funs(sum)) %>%
+        dplyr::summarise(across(.cols=everything(),sum))%>%
         dplyr::select(-time_diff) %>%
         dplyr::rename(., time_diff = Lag_midpoint)
       freq_tot
@@ -261,7 +264,8 @@ if (lor_type == "model-based"){
                       Lag_midpoint = midpoints(bin)) %>%
         dplyr::select(-bin) %>%
         dplyr::group_by(Lag_midpoint, y1) %>%
-        dplyr::summarise_all(dplyr::funs(sum)) %>%
+        #dplyr::summarise_all(dplyr::funs(sum)) %>%
+        dplyr::summarise(across(.cols=everything(),sum))%>%
         dplyr::select(-time_diff) %>%
         dplyr::rename(., time_diff = Lag_midpoint) %>%
         dplyr::mutate(success = ifelse(y1==1, y2y1_n11, y2y1_n10),
@@ -304,7 +308,8 @@ if (lor_type == "model-based"){
                       Lag_midpoint = midpoints(bin)) %>%
         dplyr::select(-bin) %>%
         dplyr::group_by(id, Lag_midpoint, y1) %>%
-        dplyr::summarise_all(dplyr::funs(sum)) %>%
+        #dplyr::summarise_all(dplyr::funs(sum)) %>%
+        dplyr::summarise(across(.cols=everything(),sum))%>%
         dplyr::select(-time_diff) %>%
         dplyr::rename(., time_diff = Lag_midpoint) %>%
         dplyr::mutate(success = ifelse(y1==1, y2y1_n11, y2y1_n10),
