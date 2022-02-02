@@ -3,8 +3,8 @@ ex1	data	GrayFox_Hour	lorelogram
 ex2	c	GrayFox_Hour	lor_plot	lorelogram
 ex3	GrayFox_Hour
 ex4	data	GrayFox_Hour_long
-ex5	[<-	arima.sim	as.data.frame	c	cbind	colnames<-	for	inv.logit	list	lorelogram	matrix	paste	paste0	rbinom	rep	rnorm	seq	set.seed	t
-ex6	[<-	arima.sim	as.data.frame	c	cbind	colnames<-	for	inv.logit	list	lorelogram	matrix	paste	paste0	rbinom	rnorm	seq	set.seed	t
+ex5	%>%	[<-	across	arima.sim	as.data.frame	as.numeric	c	cbind	colnames<-	for	inv.logit	list	lorelogram	matrix	mutate	ncol	paste	paste0	rbinom	rep	rnorm	seq	set.seed	t
+ex6	%>%	[<-	across	arima.sim	as.data.frame	as.numeric	c	cbind	colnames<-	for	inv.logit	list	lorelogram	matrix	mutate	ncol	paste	paste0	rbinom	rnorm	seq	set.seed	t
 ex 13	
 ex 14	
 ex10	[<-	arima.sim	as.data.frame	c	cbind	colnames<-	for	inv.logit	library	list	lor_lag_to_indep	lorelogram	matrix	paste	paste0	rbinom	rep	rnorm	seq	set.seed	t
@@ -19,4 +19,4 @@ ex 8	$	$<-	%>%	.	::	aes	binning	c	data	element_rect	element_text	factor	geom_hli
 ex 9	$	$<-	::	[<-	aes	arima.sim	as.data.frame	c	cbind	colnames<-	coord_cartesian	element_rect	element_text	for	geom_hline	geom_line	geom_ribbon	ggplot	grid.arrange	inv.logit	L_95_CI	labs	Lag	list	lor_plot	lorelogram	matrix	max	Method	paste	paste0	rbind	rbinom	rep	rnorm	seq	set.seed	t	tic	toc	U_95_CI
 unnamed-chunk-2	library
 ex8	$	$<-	%>%	.	::	aes	binning	c	data	element_rect	element_text	factor	geom_hline	geom_line	geom_ribbon	ggplot	GrayFox_minute_lureSal	L_95_CI	labs	Lag	lorelogram	max	mutate	rbind	seq	tic	toc	U_95_CI
-ex9	$	$<-	::	[<-	aes	arima.sim	as.data.frame	c	cbind	colnames<-	coord_cartesian	element_rect	element_text	for	geom_hline	geom_line	geom_ribbon	ggplot	grid.arrange	inv.logit	L_95_CI	labs	Lag	list	lor_plot	lorelogram	matrix	max	Method	paste	paste0	rbind	rbinom	rep	rnorm	seq	set.seed	t	tic	toc	U_95_CI
+ex9	$	$<-	%>%	::	[<-	across	aes	arima.sim	as.data.frame	as.numeric	c	cbind	colnames<-	coord_cartesian	element_rect	element_text	for	geom_hline	geom_line	geom_ribbon	ggplot	grid.arrange	inv.logit	L_95_CI	labs	Lag	list	lor_plot	lorelogram	matrix	max	Method	mutate	ncol	paste	paste0	rbind	rbinom	rep	rnorm	seq	set.seed	t	tic	toc	U_95_CI

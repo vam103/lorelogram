@@ -63,7 +63,7 @@ lorelogram <- function(data, data_format = "wide", max_lag = 30, lor_type = "emp
 
     if (length(sapply(data[,2:ncol(data)], is.factor)[sapply(data[,2:ncol(data)], is.factor)==TRUE])>0) {
       indx <- sapply(data[,2:ncol(data)], is.factor)
-      data[,2:ncol(data)][indx] <- lapply(data[,2:ncol(data)], function(x) as.numeric(as.character(x)))
+      data[,2:ncol(data)][indx] <- future.apply::future_lapply(data[,2:ncol(data)], function(x) as.numeric(as.character(x)))
       warning("Second to last columns in data were converted from factor to numeric")
     }
 
@@ -166,7 +166,7 @@ lorelogram <- function(data, data_format = "wide", max_lag = 30, lor_type = "emp
     Z
   }
 
-  b <- lapply(1:n, myfunct)
+  b <- future.apply::future_lapply(1:n, myfunct)
   Z <- as.data.frame(data.table::rbindlist(b, fill = TRUE)) # from list to data.frame
 
 # #### Organize data: Compile counts of pairwise 11, 01, 01, 00 for each time interval

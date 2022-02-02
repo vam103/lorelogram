@@ -22,6 +22,8 @@ library(ggplot2)
 library(tictoc)
 library(boot)
 library(gridExtra)
+library(future.apply)
+plan(multisession)
 ```
 
 
@@ -125,7 +127,7 @@ for(j in 1:J){
 # create and add ID column to the data and prepare the data
 y <- as.data.frame(cbind(id=paste("S", seq(1,M,1), sep=""),y))
 colnames(y) <- c("id", paste0("R", seq(1, J, 1), sep=""))
-Stat_data <- y
+Stat_data <- y %>% mutate(across(.cols=2:ncol(y),as.numeric))
 
 # Applying lorelogram
 LOR_Stat_data <- lorelogram(Stat_data, max_lag = 30)
@@ -163,7 +165,7 @@ for(j in 1:J){
 # create and add ID column to the data and prepare the data
 y <- as.data.frame(cbind(id=paste("S", seq(1,M,1), sep=""),y))
 colnames(y) <- c("id", paste0("R", seq(1, J, 1), sep=""))
-NonStat_data <- y
+NonStat_data <- y %>% mutate(across(.cols=2:ncol(y),as.numeric))
 
 # Applying lorelogram
 LOR_NonStat_data <- lorelogram(NonStat_data, max_lag = 30)
@@ -289,23 +291,23 @@ for(j in 1:J){
 # create and add ID column to the data and prepare the data
 y <- as.data.frame(cbind(id=paste("S", seq(1,M,1), sep=""),y))
 colnames(y) <- c("id", paste0("R", seq(1, J, 1), sep=""))
-Site_var_data <- y
+Site_var_data <- y %>% mutate(across(.cols=2:ncol(y),as.numeric))
 
 # Applying empirical lorelogram
 tic()
-LOR_empirical <- lorelogram(Site_var_data <- y, max_lag = 30, lor_type = "empirical", plot_LOR = FALSE)
+LOR_empirical <- lorelogram(Site_var_data, max_lag = 30, lor_type = "empirical", plot_LOR = FALSE)
 toc()
 plot_emp <- lor_plot(LOR_empirical, colour = "green", title = "Empirical", ylim = c(-0.05,1))
 
 # Applying model-based lorelogram without random effect
 tic()
-LOR_mod_noRE <- lorelogram(Site_var_data <- y, max_lag = 30, lor_type = "model-based", 
+LOR_mod_noRE <- lorelogram(Site_var_data, max_lag = 30, lor_type = "model-based", 
                            id_rand_eff = FALSE, plot_LOR = FALSE)
 toc()
 
 # Applying model-based lorelogram without random effect
 tic()
-LOR_mod_RE <- lorelogram(Site_var_data <- y, max_lag = 30, lor_type = "model-based", 
+LOR_mod_RE <- lorelogram(Site_var_data, max_lag = 30, lor_type = "model-based", 
                          id_rand_eff = TRUE, plot_LOR = FALSE)
 toc()
 
